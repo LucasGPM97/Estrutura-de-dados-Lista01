@@ -15,28 +15,49 @@ typedef struct{
 
 void setContato(Contato c[], char nome[50], char telefone[15], int* qtd_contatos);  //Cadastro por passagem de parametros (Constructor)
 void cadastroContato(Contato c[], int* qtd_contatos);                               //Cadastro por entrada de dados  
-void imprimeContato(Contato c);
-
+void imprimeContato(Contato c[], int i);
+void listarContatos(Contato c[], int* qtd_contatos);
+void procurarContato(Contato c[], char nome[50], int* qtd_contatos);
 int main(){
 
     Contato c[TAM_CONTATO];
-    int qtd_contatos = 0;
-    int decisao;
+    int qtd_contatos = 0, i = 0;
+    int escolha = 0;
+    char nome[50];
+
     do{
         system("cls");
-        cadastroContato(c, &qtd_contatos);
-        qtd_contatos++;
-        cadastroContato(c, &qtd_contatos);
-        qtd_contatos++;
-        setContato(c, "Cineide Barbosa", "976654331", &qtd_contatos);
+        printf("\n********** Menu **********\n");
+        printf("1 - Cadastrar novo contato\n");
+        printf("2 - Listar todos os contatos\n");
+        printf("3 - Buscar um contato pelo nome\n");
+        printf("4 - Sair\n");
+
+        scanf("%d", &escolha);
 
 
-        imprimeContato(c[0]);
-        imprimeContato(c[1]);
-        imprimeContato(c[2]);
-        printf("Deseja continuar?\n - [0] - sim\n - [1] - nao \nEscolha: ");
-        scanf("%d", &decisao);
-    }while(decisao == 0);
+        switch (escolha)
+        {
+        case 1:
+            cadastroContato(c, &qtd_contatos);
+            qtd_contatos++;
+            system("PAUSE");
+            break;
+        case 2:
+            listarContatos(c, &qtd_contatos);
+            system("PAUSE");
+            break;
+        case 3:
+            printf("Digite o nome: ");
+            scanf(" %[^\n]s", &nome);
+            procurarContato(c, nome, &qtd_contatos);
+            system("PAUSE");
+            break;
+        
+        default:
+            break;
+        }
+    }while(escolha != 4);
 
     return 0;
 }
@@ -57,11 +78,24 @@ void cadastroContato(Contato c[], int* qtd_contatos){
 
 }
 
+void listarContatos(Contato c[], int* qtd_contatos){
+    int i=0;
+    for(i=0;i<*qtd_contatos;i++){
+        imprimeContato(c, i);
+    }
+}
 
-void imprimeContato(Contato c){
 
-    printf("\n************************************************\n");
-    printf("Nome: %s\tTelefone: %s", c.nome, c.telefone);
-    printf("\n************************************************\n");
+void imprimeContato(Contato c[], int i){
+    printf("Nome: %s\tTelefone: %s\n", c[i].nome, c[i].telefone);
+}
+
+void procurarContato(Contato c[], char nome[50], int* qtd_contatos ){
+    int i=0;
+    for(i=0;i<=*qtd_contatos;i++){
+        if(strcmp(c[i].nome,nome) == 0){
+            imprimeContato(c, i);
+        }
+    }
 
 }
